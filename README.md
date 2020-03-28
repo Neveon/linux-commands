@@ -12,7 +12,7 @@
   - pattern matching for filenames
   - match jpg and png `*{jpg,png}` or `*jpg *png`
   - `*b` match will all files that end with b
-  - glob cheatsheet(https://github.com/begin/globbing/blob/master/cheatsheet.md)
+  - [glob cheatsheet](https://github.com/begin/globbing/blob/master/cheatsheet.md)
 
 #### `history`
   - shows recent commands
@@ -65,7 +65,7 @@
 
 #### 'less longfile1.txt`
   - Uses the entire console to display the file
-  - Cheatsheet(http://sheet.shiar.nl/less)
+  - [less Cheatsheet](http://sheet.shiar.nl/less)
 
 #### `nano file.txt`
   - Built in editor for Ubuntu
