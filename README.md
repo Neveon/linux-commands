@@ -8,7 +8,7 @@
   - manual for commands (ex: `man cat`)
   - `q` to exit
 
-#### 'man glob'
+#### glob
   - pattern matching for filenames
   - match jpg and png `*{jpg,png}` or `*jpg *png`
   - `*b` match will all files that end with b
@@ -67,7 +67,7 @@
 #### `sort`
   - sorts input from user, use `ctrl+d` on new line after done inputting to sort
 
-#### 'less longfile1.txt`
+#### `less longfile1.txt`
   - Uses the entire console to display the file
   - [less Cheatsheet](http://sheet.shiar.nl/less)
 
