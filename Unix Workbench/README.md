@@ -3,6 +3,10 @@
 #### `ls -l` long listing
   - If the entry in the first column is a d, then the row in the table corresponds to a directory, otherwise the information in the row corresponds to a file
 
+#### `head -n 5`
+  - output the first part of files (usually 10 lines without flag)
+  - `-n` flag is the number of lines you want to print out
+
 #### Output redirection and appending
   - Output redirection stores text that would be normally printed to the command line in a text file. You can use output redirection by typing the greater-than sign (>) at the end of a command followed by the name of the new file that will contain the output from the proceeding command.
   - Example: `echo "I'm in the file." > echo-out.txt`
