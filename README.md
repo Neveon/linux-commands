@@ -37,6 +37,7 @@
   - moving files (`mv fileORdirectory1 fileORdirectory2 destination`)
   - copying to a different directory same as above for `cp`
   - renaming file (`mv filename newfilename`)
+  - `cp -r` Ensures that the underlying directory structure of the directory you wish to copy remains intact
 
 #### `cd`
   - change directory
@@ -44,6 +45,9 @@
 
 #### `mkdir` `rmdir`
   - make directory, remove directory
+
+#### `touch newfilename`
+  - creates newfilename
 
 #### `echo`
   - prints to command line
