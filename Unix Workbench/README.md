@@ -372,3 +372,100 @@
     echo $sum
   }
   ```
+
+#### The Unix Philosophy
+  - Unix tools were designed along a set of guidelines which are best summarized by Ken Thompson’s idea that each Unix program should do one thing well. Following this rule when writing functions and programs accomplished several goals:
+
+        1) Limiting a program to only doing one thing reduces the length of the program, and the shorter a program is the easier it is to fix if it contains bugs or if it needs to be revised.
+        
+        2) Writing short programs also helps the users of your code understand what’s going on in your code in the event that they need to read your code. Reading a poem induces a different cognitive load compared to reading a novel.
+
+        3) Folks who don’t read the source code of your program (most users won’t - they shouldn’t have to) will be able to understand the inputs, outputs, and side effects of your program more easily.
+
+        4) Using small programs to write a new program will increase the likelihood that the new program will also be small. Composability is the concept of stringing small programs together to create a new program.
+
+  - The concept of composability in Unix is best illustrated by the use of the pipe operator (|) for creating pipelines of programs. When you’re considering what inputs your program is going to have and what your program is going to print to the console you should consider whether or not your program might be used in a pipeline, and you should organize your program accordingly.
+
+  - The concept of quietness is another important part of the Unix philosophy. Quietness in this case means that a function should not print to the console unless it is necessary, either to inform the user of a value (pwd), to display the result of a computation (bc), or to warn the user that an error has occurred.
+
+#### Making Programs Executable
+  ```bash
+  ls -l | head -n 3
+
+  ## -rw-rw-r-- 1 sean sean 138 Jun 26 12:51 addseq.sh
+  ## -rw-rw-r-- 1 sean sean 146 Jun 26 14:45 addseq2.sh
+  ## -rw-rw-r-- 1 sean sean 140 Jan 29 10:06 bigmath.sh
+  ```
+
+  - Following long listing `ls -l`, we can see the left column of the table contains a series of individual characters and dashes. The first hyphen signifies that each entry in the list are files. It would have a d in place if they were directories.
+
+  - Excluding the first hyphen, we have the string rw-rw-r--.
+
+  - This string reflects the permissions that are set up for this file. There are three permissions that we can grant: the ability to read the file (r), write to or edit the file (w), or execute the file (x) as a program. These three permissions can be granted on three different levels of access which correspond to each of the three sets of rwx in the permissions string: the owner of the file, the group that the file belongs to, and everyone other than the owner and the members of a group. Since you created the file you are the owner of the file, and you can set the permissions for files that you own using the `chmod` command.
+
+  - `chmod` first argument is a string which specifies how we are going to change permissions for the file, and the second argument is the path to the file.
+  - `u` The owner of the file
+  - `g` The group that the file belongs to
+  - `o` Eveyone else
+  - `a` Everyone above
+
+  - We then need to specify whether we are going to add, remove or set permission
+  - `+` Add permission
+  - `-` Remove permission
+  - `=` Set permission
+
+  - Finally, we specify what permission we are changing
+  - `r` Read a file
+  - `w` Write to or edit a file
+  - `x` Execute a file
+
+  - Short example
+  ```bash
+  echo 'echo "a small program"' > short
+
+  ls -l short
+
+  ## -rw-r--r--  1 sean  staff  23 Jun 28 09:47 short
+
+  chmod u+x short
+  ls -l short
+
+  ## -rwxr--r--  1 sean  staff  23 Jun 28 09:47 short
+  ```
+
+  - We successfully added the x! To run an executable file we need to specify the path to the file, even if the path is in the current directory, meaning we need to prepend ./ to short.
+
+  ```bash
+  ./short
+
+  ## a small program
+  ```
+
+  - There is one small detail we should add to this program though. Even though we’ve made our file executable, if we give our program to somebody else they might be using a shell that doesn’t know how to execute our program. We need to indicate how the program should be run by adding a special line of text to the beginning of our program called a shebang.
+
+  - The shebang always begins with #! followed by the path to the program which will execute the code in our file. The shebang for indicating that we want to use Bash is `#!/usr/bin/env bash`, which we’ve been adding to the start of our scripts for a while now!
+
+#### Environmental Variables
+  - An environmental variable is a variable that Bash creates where data about your current computing environment is stored. Environmental variable names use all capitalized letters. Let’s look at the values for some of these variables. The HOME variable contains the path to our home directory, and the PWD variable contains the path to our current directory.
+
+  ```bash
+  echo $HOME
+  echo $PWD
+
+  ## /home/dragon
+  ## /home/dragon/Desktop/Linux_Tut/UnixWorkbench
+  ```
+
+  - If we want one of our functions to be available always as a command then we need to change the PATH variable.
+  - The PATH variable contains a sequence of paths on our computer separated by colons. When the shell starts it searches these paths for executable files, and then makes those executable commands available in our shell. One approach to making our scripts available is to add a directory to the PATH. Bash scripts in the directory that are executable can be used as commands. We need to modify PATH every time we start a shell, so we can ammend our `~/.bash_profile` (or `~/.profile.`, or `~/.bashrc`) so that our directory for executable scripts is always in the PATH. To modify an environmental variable we need to use the `export` keyword.
+  
+  - In this example, we’ll set the variable in the ~/.bashrc file. Open the file with your text editor and add the following line at the end of it:
+  ```bash
+  nano ~/.bashrc
+  export PATH="$HOME/bin:$PATH"
+  ```
+  - Save the file and load the new $PATH into the current shell session using the source command:
+  ```bash
+  source ~/.bashrc
+  ```
+  - To confirm that the directory was successfully added, print the value of your $PATH by typing `echo $PATH`
