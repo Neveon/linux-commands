@@ -48,6 +48,7 @@
   - `-i` flag ignores the letter casing
   - `\` is the escape character 
   - `|` pipe chracter allows us to match either the regex on the left or right
+  - `-o` flag extracts the regex from the matching line. Great to use to know number of times the regex comes up
 
 #### `find directoryToSearch -name filename `
   - Find the location of a file or the location of a group of files
@@ -64,3 +65,123 @@
 #### `~/.bashrc`
   - You will want your aliases to work in interactive shells whether or not they are login shells. Instead, define your aliases in `~/.bashrc` or, better, `~/.bash_aliases` which the default `~/.bashrc` sources
   - One of the most common commands used in `~/.bashrc`, or `~/.bash_aliases`, file is the `alias` command, which creates a shorter name for a command
+
+#### `sdiff`
+  - side by side comparison of files
+
+#### `md5sum filename`
+  - Compute MD5 hash of a file
+  - Can be used to compare copied files to verify they are similar
+
+#### `shasum filename`
+  - Compute the SHA-1 hash of a file
+  - Also can be used to compare copied files to verify they are similar
+
+#### Pipes 
+  - `[program that produces output] | [program uses pipe output as input instead of a file]`
+  - `|` allows us to take the output of a command, which would normally be printed to the console, and use it as the input to another command.
+  - `cat canada.txt | head -n 5` would print out the first 5 lines of territories of canada rather than all of them
+  - `grep [aeiou]$ states.txt | wc -l` list all of the state names that end with a vowel, then we could use wc to count all of the matching state names. The `-l` flag counts all newlines
+
+#### First line of bash file `.sh`
+  - Tells the computer which intepreter to use while executing the file
+  ```
+  #!/usr/bin/bash 
+  echo "Hello World"
+  ```
+  ```
+  #!/usr/bin/env python
+  print("Hello World")
+  ```
+
+#### Installing software using makefile
+  1) Download all of the files required for installation into a directory
+  2) `cd` into that directory
+  3) Run `make`
+
+  - We can create a `makefile` ourselves that create documents automatically
+  - `nano makefile` using format:
+  `[target]: [dependencies...]
+    [commands...]`
+  - Commands under a target must be indented or else the make will fail!
+  - Commands only run when target doesn't exist at all or dependencies change
+  - `make [target]` runs the `makefile` command
+  - We can create a rule at the top of our `makefile` called `all` where we can list all of the files that are built by the `makefile`. By adding the `all` target we can simply run `make` without any arguments in order to build all of the targets in the `makefile`.
+  - `all: [targets...]`
+
+#### Math with Bash Scripts
+  - Within `math.sh`, `expr 5 \* 2`, notice we must escape the `*` or else bash thinks we are creating a regex!
+  - `bash` does integer division by default
+  - `bash math.sh` runs the bash script
+  - `bc -l` bench calculator program with `-l` flag used to use decimal numbers in calculations
+  - `echo "4.2 * 9.15" | bc -l`
+
+#### Variables
+  - Every character should be lowercase and the name must start with a letter. The name should only contain alphanumeric characters and underscores. Words in the name should be separated by underscores.
+  - The above rules should be followed to avoid accidentally overwriting data stored in environmental variables
+  - `chapter_number=5` No spaces allowed
+  - `echo $chapter_number` The dollar signed is used to retrieve the value of a variable
+  - `$()` stores result of the command in a variable
+  - `math_lines=$(cat math.sh | wc -l)` store number of lines in math.sh
+  - Variable names with a dollar sign can also be used inside other strings in order to insert the value of the variable into the string
+  - `$@` script arguments, `$1` first script argument, `$#` total number of script arguments
+
+#### User Input
+  ```bash
+  #!/usr/bin/env bash
+  # File: letsread.sh
+
+  echo "Type in a string and then press Enter:"
+  read response
+  echo "You entered: $response"
+  ```
+  - Ask users to type in a string on the command line by temporarily stopping the execution of your program using the `read` command
+
+#### Conditional Execution
+  - `echo $?` checks exit status
+  - `true` exit status of 0
+  - `false` exit status of 1
+  - `&&` Any program to the right of a program that has a non-zero exit status is not executed. Example: `false && true && echo Hello` prints nothing
+  - `echo 1 && false && echo 3` prints 1
+  - `||` Any command on the right hand side is only executed if the command on the left hand side fails. Example: `true || echo "Program 1 was executed` nothing executed
+
+#### Conditional Expressions
+  - `[[]]`Conditional Expressions either compare two values, or they ask a question about one value. They are always between double brackets and either use logical flags or logical operators.
+  - `-gt` greater than flag. `[[ 4 -gt 3 ]]` Is 4 greater than 3?
+  - Binary logical expressions compare two values, but there are also unary logical expressions that only look at one value. For example, testing whether a file exists using the `-e` logical flag: `[[ -e math.sh ]] && echo t || echo f`
+  - `-ge` greater than or equal to
+  - `-eq` equal to
+  - `-ne` not equal to
+  - `-le` less than or equal to
+  - `-lt` less than
+  - `-d` check if directory exists
+  - `-z` length of a string is zero
+  - `-n` length of string is non-zero
+  - logical operators is the regex match operator `=~` which compares a string to a regular expression and if the string is a match for the regex
+  ```bash
+  [[ rhythms =~ [aeiou] ]] && echo t || echo f
+  my_name=sean
+  [[  $my_name =~ ^s.+n$ ]] && echo t || echo f
+  ```
+  - `!` not operator. Inverts the value of any conditional expression
+  `[[ ! 6 -ne 3 ]] && echo t || echo f` prints f
+  - `=` String equal to
+  - `!=` String not equal to
+
+  #### If and Else
+  - First this program will print “Start program”, then the IF statement will check if the conditional expression [[ $1 -eq 4 ]] is true. It will only be true if you provide 4 as the first argument to the script. If the conditional expression is true then it will execute the code in between then and else, otherwise it will execute the code between else and fi. Finally the program will print “End program.”
+
+    ```bash
+    echo "Start program"
+
+    if [[ $1 -eq 4 ]]
+    then
+      echo "Thanks for entering $1"
+    else
+      echo "You entered: $1, not what I was looking for."
+    fi
+
+    echo "End program"
+    ```
+  
+  - `elif` can be used for multiple conditional expression evaluations. Don't forget to use `then` as well!
