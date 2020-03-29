@@ -250,3 +250,125 @@
 
   ```
   
+#### For Loops
+  ```bash
+  #!/usr/bin/env bash
+  # File: forloop.sh
+
+  echo "Before Loop"
+
+  for i in {1..3}
+  do
+      echo "i is equal to $i"
+  done
+
+  echo "After Loop"
+  ```
+
+#### While Loops
+  ```bash
+  #!/usr/bin/env bash
+  # File: whileloop.sh
+
+  count=3
+
+  while [[ $count -gt 0 ]]
+  do
+    echo "count is equal to $count"
+    let count=$count-1
+  done
+  ```
+
+#### Nesting
+  ```bash
+  #!/usr/bin/env bash
+  # File: nestedloops.sh
+
+  for number in {1..3}
+  do
+    for letter in a b
+    do
+      echo "number is $number, letter is $letter"
+    done
+  done
+  ```
+
+#### Writing Functions
+  - Syntax
+  ```bash
+  function [name of function] {
+  # code here
+  }
+  ```
+
+  - Examples
+  ```bash
+  #!/usr/bin/env bash
+  # File: hello.sh
+
+  function hello {
+    echo "Hello"
+  }
+
+  hello
+  hello
+  hello
+  ```
+  ```bash
+  #!/usr/bin/env bash
+  # File: addseq.sh
+
+  function addseq {
+    sum=0
+
+    for element in $@
+    do
+      let sum=sum+$element
+    done
+
+    echo $sum
+  }
+  ```
+
+  - In the program above we initialize the sum variable to be 0 so that we can add other values in the sequence to sum. We then use a FOR loop to iterate through every element of $@, which is an array of all the arguments we provide to addseq. Finally we echo the value of sum.
+
+  - `source bashScript.sh` allows us to use function definitions in bash scripts as command line commands
+  ```bash
+  source addseq.sh
+  addseq 12 90 3
+  addseq 0 1 1 2 3 5 8 13
+  addseq
+  addseq 4 6 6 6 4
+
+  ## 105
+  ## 33
+  ## 0
+  ## 26
+  ```
+
+#### Getting values from Functions
+  - If we look back at the code for `addseq.sh` we can see that we created a variable in the function called sum. When you create variables in functions those variables become globally accessible, meaning that even after the program is finished that variable retains its value in your shell.
+
+  ```bash
+  echo $sum
+
+  ## 10
+  ```
+
+  - Unfortunately this approach is problematic because it changes the values of variables that we might be using in our shell. For example if we were storing some other important value in a variable called sum we would destroy that value by accident by running addseq. In order to avoid this problem it’s important that we use the local keyword when assigning variables within a function. The local keyword ensures that variables outside of our function are not overwritten by our function. 
+
+  ```bash
+  #!/usr/bin/env bash
+  # File: addseq2.sh
+
+  function addseq2 {
+    local sum=0
+
+    for element in $@
+    do
+      let sum=sum+$element
+    done
+
+    echo $sum
+  }
+  ```
