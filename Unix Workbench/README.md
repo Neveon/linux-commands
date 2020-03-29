@@ -185,3 +185,68 @@
     ```
   
   - `elif` can be used for multiple conditional expression evaluations. Don't forget to use `then` as well!
+
+#### Arrays
+  - Arrays are created with parentheses with a space separating each element in the list
+  - To retrieve the array you need to use parameter expansion, which involves the dollar sign and curly brackets. To get all elements in the array, use a `*` between the square brackets
+  - To get only part of an array you have to specify the index you would like to start at, followed by the number of elements you would like to retrieve from the array, separated by colons
+  - To get length of an array use the `#` pound sign
+  - `+=` can be used to add an array onto the end of an array
+  ```bash
+  plagues=(blood frogs lice flies sickness boils hail locusts darkness death)
+  echo ${plagues[0]}
+  plagues[4]=disease
+  echo ${plagues[*]}
+  echo ${plagues[*]:5:3}
+  echo ${#plagues[*]}
+  ```
+
+#### Braces
+  - Bash has a very handy tool for creating strings out of sequences called brace expansion. Brace expansion uses the curly brackets and two periods ({ .. }) to create a sequence of letters or numbers. For example to create a string with all of the numbers between zero and nine you could do the following
+  ```bash
+  echo {0..9}
+
+  ## 0 1 2 3 4 5 6 7 8 9
+  ```
+
+  - You can put strings on either side of the curly brackets and they’ll be “pasted” onto the corresponding end of the sequence:
+  ```bash
+  echo a{0..4}
+  echo b{0..4}c
+
+  ## a0 a1 a2 a3 a4
+  ## b0c b1c b2c b3c b4c
+  ```
+  - You can also combine sequences so that two or more sequences are pasted together:
+  ```bash
+  echo {1..3}{A..C}
+
+  ## 1A 1B 1C 2A 2B 2C 3A 3B 3C
+  ```
+
+  - If you want to use variables in order to define a sequence you need to use the eval command in order to create the sequence:
+  ```bash
+  start=4
+  end=9
+  echo {$start..$end}
+  eval echo {$start..$end}
+
+  ## {4..9}
+  ## 4 5 6 7 8 9
+  ```
+
+  - You can combine sequences with a comma between brackets ({,}):
+  ```bash
+  echo {{1..3},{a..c}}
+
+  ## 1 2 3 a b c
+  ```
+
+  - In fact you can do this with any number of strings:
+  ```bash
+  echo {Who,What,Why,When,How}?
+
+  ## Who? What? Why? When? How?
+
+  ```
+  
