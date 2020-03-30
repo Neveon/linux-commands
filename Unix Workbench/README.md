@@ -107,6 +107,7 @@
   - `nano makefile` using format:
   `[target]: [dependencies...]
     [commands...]`
+  - `target` is the file name created
   - Commands under a target must be indented or else the make will fail!
   - Commands only run when target doesn't exist at all or dependencies change
   - `make [target]` runs the `makefile` command
