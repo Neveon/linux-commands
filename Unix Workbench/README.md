@@ -7,6 +7,9 @@
   - output the first part of files (usually 10 lines without flag)
   - `-n` flag is the number of lines you want to print out
 
+#### What Shell am I running?
+  - `echo $0` prints the language your terminal is running
+
 #### Output redirection and appending
   - Output redirection stores text that would be normally printed to the command line in a text file. You can use output redirection by typing the greater-than sign (>) at the end of a command followed by the name of the new file that will contain the output from the proceeding command.
   - Example: `echo "I'm in the file." > echo-out.txt`
@@ -26,6 +29,7 @@
   - In the command above, the first argument to grep is the regular expression "x". The "x" regular expression represents one instance of the letter “x”. Every line of the states.txt file that contains at least one instance of the letter “x” is printed to the console. As you can see New Mexico and Texas are the only two state names that contain the letter “x”.
   - Regular expressions aren’t just limited to searching with characters and strings, the real power of regular expressions come from using metacharacters. Remember that metacharacters are characters that can be used to represent other characters. To take full advantage of all of the metacharacters we should use grep’s cousin `egrep`, which just extends grep’s capabilities.
   - `-n` flag displays the line number that a match occurs
+  - `-i` case insensitive regex
 
 #### `egrep regexHere filename1 filename2` metacharacters
   - `"i.g"` the `.` represents any character
@@ -406,8 +410,8 @@
   - `chmod` first argument is a string which specifies how we are going to change permissions for the file, and the second argument is the path to the file.
   - `u` The owner of the file
   - `g` The group that the file belongs to
-  - `o` Eveyone else
-  - `a` Everyone above
+  - `o` other users not in the file's group (Everyone else)
+  - `a` All users
 
   - We then need to specify whether we are going to add, remove or set permission
   - `+` Add permission
@@ -443,7 +447,7 @@
 
   - There is one small detail we should add to this program though. Even though we’ve made our file executable, if we give our program to somebody else they might be using a shell that doesn’t know how to execute our program. We need to indicate how the program should be run by adding a special line of text to the beginning of our program called a shebang.
 
-  - The shebang always begins with #! followed by the path to the program which will execute the code in our file. The shebang for indicating that we want to use Bash is `#!/usr/bin/env bash`, which we’ve been adding to the start of our scripts for a while now!
+  - The shebang always begins with #! followed by the path to the program which will execute the code in our file. The shebang for indicating that we want to use Bash is `#!/usr/bin/env bash`, which we’ve been adding to the start of our scripts for a while now! (`#!/bin/bash` for Ubuntu)
 
 #### Environmental Variables
   - An environmental variable is a variable that Bash creates where data about your current computing environment is stored. Environmental variable names use all capitalized letters. Let’s look at the values for some of these variables. The HOME variable contains the path to our home directory, and the PWD variable contains the path to our current directory.
@@ -458,11 +462,11 @@
 
   - If we want one of our functions to be available always as a command then we need to change the PATH variable.
   - The PATH variable contains a sequence of paths on our computer separated by colons. When the shell starts it searches these paths for executable files, and then makes those executable commands available in our shell. One approach to making our scripts available is to add a directory to the PATH. Bash scripts in the directory that are executable can be used as commands. We need to modify PATH every time we start a shell, so we can ammend our `~/.bash_profile` (or `~/.profile.`, or `~/.bashrc`) so that our directory for executable scripts is always in the PATH. To modify an environmental variable we need to use the `export` keyword.
-  
+
   - In this example, we’ll set the variable in the ~/.bashrc file. Open the file with your text editor and add the following line at the end of it:
   ```bash
   nano ~/.bashrc
-  export PATH="$HOME/bin:$PATH"
+  export PATH="$PATH:/home/dir/you/want"
   ```
   - Save the file and load the new $PATH into the current shell session using the source command:
   ```bash
